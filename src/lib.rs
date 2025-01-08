@@ -268,4 +268,40 @@ impl Pwm {
             ))),
         }
     }
+
+    /// Get the currently configured oneshot_count
+    pub fn get_oneshot_count(&self) -> Result<u32> {
+        pwm_file_parse::<u32>(&self.chip, self.number, "oneshot_count")
+    }
+
+    /// Set the currently configured oneshot_count
+    pub fn set_oneshot_count(&self, count: u32) -> Result<()> {
+        let mut oneshot_count_file = pwm_file_wo(&self.chip, self.number, "oneshot_count")?;
+        oneshot_count_file.write_all(format!("{}", count).as_bytes())?;
+        Ok(())
+    }
+
+    /// Get the currently configured oneshot_repeat
+    pub fn get_oneshot_repeat(&self) -> Result<u32> {
+        pwm_file_parse::<u32>(&self.chip, self.number, "oneshot_repeat")
+    }
+
+    /// Set the currently configured oneshot_repeat
+    pub fn set_oneshot_repeat(&self, repeat: u32) -> Result<()> {
+        let mut oneshot_repeat_file = pwm_file_wo(&self.chip, self.number, "oneshot_repeat")?;
+        oneshot_repeat_file.write_all(format!("{}", repeat).as_bytes())?;
+        Ok(())
+    }
+
+    /// Get the currently configured duty_offset
+    pub fn get_duty_offset(&self) -> Result<u64> {
+        pwm_file_parse::<u64>(&self.chip, self.number, "duty_offset")
+    }
+
+    /// Set the currently configured duty_offset
+    pub fn set_duty_offset(&self, offset: u64) -> Result<()> {
+        let mut duty_offset_file = pwm_file_wo(&self.chip, self.number, "duty_offset")?;
+        duty_offset_file.write_all(format!("{}", offset).as_bytes())?;
+        Ok(())
+    }
 }
